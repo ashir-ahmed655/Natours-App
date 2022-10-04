@@ -6,7 +6,7 @@ export const update_userInfo= async (form)=>{
     try{
         const updated_User= await axios({
             method:"Patch",
-            url:"http://127.0.0.1:6969/api/v1/users/update-my-Profile",
+            url:"/api/v1/users/update-my-Profile",
             data:form
         })
 
@@ -28,7 +28,7 @@ export const updatePassword= async (password,change_password,change_passwordConf
     try{
         const resp= await axios({
             method:"Patch",
-            url:"http://127.0.0.1:6969/api/v1/users/updatePassword",
+            url:"/api/v1/users/updatePassword",
             data:{
                 password,
                 change_password,

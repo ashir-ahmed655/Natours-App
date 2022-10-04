@@ -17,6 +17,7 @@ const helmet=require('helmet');
 const mongoSanitize=require('express-mongo-sanitize');
 const xss=require('xss-clean');
 const hpp=require('hpp');
+const compression= require('compression')
 
 app.set('view engine','pug'); // to use pug templates NOTE: Node already supports pug and other popular template engines by default
 app.set('views', path.join(__dirname,'views')) // sets views folder as our view engine and path is a native module which joins view folder path with dir name.
@@ -63,6 +64,7 @@ app.use(hpp({ // clear up the query string from duplicate fields like sort param
 
 app.use(cookieParser());
 
+app.use(compression());
 
 // Simple User-Defined Global Middle-Ware:  ---(here globl means the req now has property of time which can be accessed from any below get post etc funcs). 
 // app.use((req,res,next)=>{

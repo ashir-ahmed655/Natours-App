@@ -19,7 +19,7 @@ const bookTourBtn= document.getElementById('book-tour')
 if(mapBox){ // If html has an element with id 'map' then mapbox will be called.Assuming only tours detail page have an element with id 'map'
     //We first put all location data(json format) in html in map-id in data-var_name(here locations). Here we get that json data from dataset.
     const locations= JSON.parse(mapBox.dataset.location); 
-     console.log(locations)
+    //  console.log(locations)
      
     displayMap(locations);
 

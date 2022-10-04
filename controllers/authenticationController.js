@@ -43,7 +43,7 @@ exports.signup = catchAsync( async (req,res,next)=>{
     });
                 // http://127.0.0.1:6969/me // here it supposes you're signing up from the website hence it redirects you to your profile page upon clicking the btn.
     const url=`${req.protocol}://${req.get('host')}/me`
-    console.log(url);
+    // console.log(url);
     await new Email(newUser,url).sendWelcome();
     create_token_and_send_res(newUser,201,res)
 

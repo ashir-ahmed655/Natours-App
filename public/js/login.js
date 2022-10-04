@@ -6,15 +6,15 @@ export const login= async (email,password)=>{
     try{
     const res= await axios({ //Only modern browsers can run this async await code.
         method:'POST',
-        url:'http://127.0.0.1:6969/api/v1/users/login',
+        url:'/api/v1/users/login',  //'http://127.0.0.1:6969/api/v1/users/login' used this but now using relative url becuz app & api will be hosted on same server
         data:{
             email:email,  // 1st email is the email sent in req.body 2nd is the email parameter in this func.
             password:password
         }
     })
-    console.log(res);
+    // console.log(res);
     if(res.data.status==='success'){ // checking if we sent res success after hitting the above url successfully.
-        console.log("Success");
+        // console.log("Success");
         showAlert('success','Logged In Successfully')
         window.setTimeout(()=>{
             location.assign('/') // reload the home-page
@@ -30,7 +30,7 @@ export const logout= async ()=>{
     try{
         const res= await axios({
             method:'GET',
-            url:'http://127.0.0.1:6969/api/v1/users/logout',
+            url:'/api/v1/users/logout',
         })
         if(res.data.status==="success"){
             showAlert('success',"Logged Out Successfully")
@@ -40,7 +40,7 @@ export const logout= async ()=>{
            
         }
     }catch(Err) {
-        console.log(Err)
+        // console.log(Err)
         showAlert("error","Error Logging Out.")
     }
 }

@@ -105,7 +105,7 @@ userSchema.methods.createResetPassToken= function(){
     generateToken= crypto.randomBytes(32).toString('hex');
     this.passwordResetToken= crypto.createHash('sha256').update(generateToken).digest('hex');// ecrypted token to store in DB whereas send the ogtoken to user.
     
-    console.log({generateToken} , this.passwordResetToken);
+    // console.log({generateToken} , this.passwordResetToken);
 
     this.passwordResetTokenExpires=Date.now() + 10 * 60 * 1000 // set expire token to be of 10mins.
     return generateToken; //return token to send using email
