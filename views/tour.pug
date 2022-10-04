@@ -1,0 +1,119 @@
+extends base
+
+block append head
+  //- To append more stuff to parents block(head here).else it would simply overwrite parents block. Also used is prepend which adds stuff before parent block
+  //- script(defer src='/js/mapbox.js')
+  //- meta(http-equiv="Content-Security-Policy" content="script-src 'self' api.mapbox.com 'unsafe-inline';" )
+  script(src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js')
+  link(href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet')
+  //-script(src='https://js.stripe.com/v3/') parcel throws error requiring stripe to be in all pugs hence moving to basePug.
+
+
+
+mixin overviewBox(label,text,icon)
+    .overview-box__detail
+          svg.overview-box__icon
+            use(xlink:href=`/img/icons.svg#icon-${icon}`)
+          span.overview-box__label #{label}
+          span.overview-box__text #{text}
+  
+
+
+block content    
+    
+    section.section-header
+      .header__hero
+        .header__hero-overlay &nbsp;
+        img.header__hero-img(src=`/img/tours/${tour.imageCover}`, alt=`${tour.name}`)
+
+      .heading-box
+        h1.heading-primary
+          span= `${tour.name} tour`
+        .heading-box__group
+          .heading-box__detail
+            svg.heading-box__icon
+              use(xlink:href='/img/icons.svg#icon-clock')
+            span.heading-box__text #{tour.duration} days
+          .heading-box__detail
+            svg.heading-box__icon
+              use(xlink:href='/img/icons.svg#icon-map-pin')
+            span.heading-box__text #{tour.startLocation.description}
+
+    section.section-description
+      .overview-box
+        div
+          .overview-box__group
+            h2.heading-secondary.ma-bt-lg Quick facts
+
+            .overview-box__detail
+              -const date=tour.startDates[0].toLocaleString('default',{month:"long",year:'numeric'})
+              +overviewBox('Next date',date,'calendar')
+     
+            .overview-box__detail
+              +overviewBox('Difficulty',tour.difficulty,'trending-up')
+
+            .overview-box__detail
+              +overviewBox('Participants',`${tour.maxGroupSize} people`,'user')
+           
+            .overview-box__detail
+              +overviewBox('Rating',`${tour.ratingsAverage} / 5 `,'star')
+        
+
+          .overview-box__group
+            h2.heading-secondary.ma-bt-lg Your tour guides
+            each guide in tour.guides 
+              .overview-box__detail
+                img.overview-box__img(src=`/img/users/${guide.photo}`, alt='Lead guide')
+
+                - if(guide.role==='lead-guide')
+                  span.overview-box__label Lead guide
+                
+                - if(guide.role==='guide')  
+                  span.overview-box__label Tour guide
+
+                span.overview-box__text #{guide.name}
+
+      .description-box
+        -const descrip_arr=tour.description.split('\n');
+        h2.heading-secondary.ma-bt-lg About #{tour.name} TOUR
+        each para in descrip_arr
+          p.description__text #{para}
+
+    section.section-pictures
+      //- Can define index var on loop too which will be zero-based.
+      each img, index in tour.images
+        .picture-box
+          //- img needed another class but that class had index in its name, so we couldn't change index there hence we shifted the class as an attribute.
+          img.picture-box__img(src=`/img/tours/${img}`, alt=`The Park Camper Tour ${index+1}`, class=`picture-box__img--${index+1}`)
+        
+    section.section-map
+      //- # denotes id while . denotes class
+      #map(data-location=`${JSON.stringify(tour.locations)}`)
+
+    section.section-reviews
+      .reviews
+        each review in tour.reviews
+          .reviews__card
+            .reviews__avatar
+              img.reviews__avatar-img(src=`/img/users/${review.user.photo}`, alt=`${review.user.name}`)
+              h6.reviews__user #{review.user.name}
+            p.reviews__text= review.review
+            .reviews__rating
+              each star in [1,2,3,4,5]
+                svg.reviews__star(class=`reviews__star--${star<=review.rating ? 'active': 'inactive'}`)
+                  use(xlink:href='/img/icons.svg#icon-star')
+
+
+    section.section-cta
+      .cta
+        .cta__img.cta__img--logo
+          img(src='/img/logo-white.png', alt='Natours logo')
+        img.cta__img.cta__img--1(src=`/img/tours/${tour.images[1]}`, alt='tour picture')
+        img.cta__img.cta__img--2(src=`/img/tours/${tour.images[2]}`, alt='tour picture')
+        .cta__content
+          h2.heading-secondary What are you waiting for?
+          p.cta__text #{tour.duration} days. 1 adventure. Infinite memories. Make it yours today!
+          if user 
+            button.btn.btn--green.span-all-rows#book-tour(data-tourId= `${tour.id}`) Book tour now!
+          else 
+            a.btn.btn--green.span-all-rows(href= '/login') Book tour now!

@@ -1,0 +1,61 @@
+doctype html 
+html 
+  head 
+    block head
+      meta(charset="UTF-8") 
+      meta(name="viewport" content="width=device-width, initial-scale=1.0")
+      link(rel='shortcut icon' type='image/png' href='/img/favicon.png')  
+      link(rel='stylesheet' href='/css/style.css')
+      link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+      title Natours | #{title}
+    //- could also use real html, pug can also understand that but we did link like this so that we know how to write attributes in pug.
+    //- Working: Pug checks the directory marked as static in app.js with express.static method and from there we can specify the loc of file which we want 
+    //-to display
+
+    //-Also coments can be created like this with adding dash but simple // would create js comment which will be visible in inspect elements when we load the site 
+   
+  body 
+    //- //- locals /another name for variables passed from app.js route can be referenced here
+    //- h1=tour    
+    //- //- Also we can add js methods to those vars. Also no comments can be added in the same line as the code so comments would be before the code line
+    //- //- Also donot add semi-colon when doing js.
+    //- h2= user.toUpperCase() 
+
+    //- //- Buffered Code: Code that results/contributes in some output. 
+    //- //- UnBuffered Code: Code that does not result/contributes in output ie: var declarations
+    //- - const x=9
+    //- h2=x*2+1 
+    //- //- Interpolation of Strings ie: Es6 template Strings kinda stuff. Don't add (=) sign while doing interpolation and use # instead of $(used in template string)
+    //- //- in shorxt when doing js stuff use = sign with tags else don't use = sign for other stuff.
+    //- h2 9+9= #{x*2}
+    //- p This is a paragraph
+
+    
+    // HEADER 
+    include header 
+
+
+    // CONTENT
+    block content 
+        h1 This is a placeHolder heading
+
+
+    // FOOTER
+    include footer
+
+    script(src='https://js.stripe.com/v3/')
+    script(src='/js/bundledFile.js')
+    
+
+    //- script(src='/js/mapbox.js')
+    //- script(src='/js/login.js')
+    //- script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js')
+    
+
+
+
+
+
+ 
+
+

@@ -1,0 +1,70 @@
+extends base
+
+mixin listItem(link,icon,text,activeClass)
+
+  li(class=`${activeClass ? 'side-nav--active' : ''}`)
+    a(href=`${link}`)
+      svg
+        use(xlink:href=`img/icons.svg#icon-${icon}`)
+      | #{text}
+
+block content
+
+  main.main
+    .user-view
+      nav.user-view__menu
+        ul.side-nav
+          +listItem('#','settings','Settings',true)
+          +listItem('/my-bookings','briefcase','My bookings',false)
+          +listItem('#','star','My reviews',false)
+          +listItem('#','credit-card','Billing',false)
+          
+        - if(user.role==="admin")
+          .admin-nav
+            h5.admin-nav__heading Admin
+            ul.side-nav
+              +listItem('#','map','Manage tours',false)
+              +listItem('#','users','Manage users',false)
+              +listItem('#','star','Manage reviews',false)
+              +listItem('#','briefcase','Manage bookings',false)
+             
+
+      .user-view__content
+        .user-view__form-container
+          h2.heading-secondary.ma-bt-md Your account settings
+
+          //- Using forms to submit data something i heard about when learning html from coding ninjas. Have to implement a route for it.
+          //- Note**: got an error trying to implement it becuz. we used form class also in login too.
+          //- form.form.form-user-data(action='/submit-user-data' method='POST' enctype='multipart/form-data') use enctype to include file else it gets ignored.
+          form.form.form-user-data
+            .form__group
+              label.form__label(for='name') Name
+              //- Specifying name property(mandatory) to send only these properties with name as fields to the server.
+              input#name.form__input(type='text', value=`${user.name}`, required, name='name')
+            .form__group.ma-bt-md
+              label.form__label(for='email') Email address
+              input#email.form__input(type='email', value=`${user.email}`, required, name='email')
+            .form__group.form__photo-upload
+              img.form__user-photo(src=`/img/users/${user.photo}`, alt=`user photo`)
+              //- here the accept can take all img extensions, also name should be photo cause thats what uploadUserImg is expecting in userContrler.
+              input.form__upload(type='file',accept= 'image/*', id='photo',name='photo')
+              label(for='photo') Choose new Photo
+            .form__group.right
+              button.btn.btn--small.btn--green Save settings
+
+
+        .line &nbsp;
+        .user-view__form-container
+          h2.heading-secondary.ma-bt-md Password change
+          form.form.form-user-password
+            .form__group
+              label.form__label(for='password-current') Current password
+              input#password-current.form__input(type='password', placeholder='••••••••', required, minlength='8')
+            .form__group
+              label.form__label(for='password') New password
+              input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+            .form__group.ma-bt-lg
+              label.form__label(for='password-confirm') Confirm password
+              input#password-confirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
+            .form__group.right
+              button.btn.btn--small.btn--green.btn-save-pass Save password
