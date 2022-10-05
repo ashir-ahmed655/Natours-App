@@ -4,7 +4,8 @@
   "description": "Learning nodejs,express,mongoDB",
   "main": "app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development nodemon server.js",
+    "start": "node server.js",
+    "dev:start": "cross-env NODE_ENV=development nodemon server.js",
     "start:prod": "cross-env NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
     "watch": "parcel watch  ./public/js/index.js --out-dir ./public/js --out-file bundledFile.js",
@@ -45,5 +46,10 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
+  },
+  "engines":{
+    "node": ">=10.0.0"
   }
+
 }
+ 
