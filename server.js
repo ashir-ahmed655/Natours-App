@@ -5,12 +5,14 @@ process.on('uncaughtException',err=>{ // For SYNC CODE: global exception error h
     
 });
 
+const dotenv= require('dotenv');
+dotenv.config({ path: './config.env' });
 
 const app=require('./app');
 const mongoose=require('mongoose');
-const DB_string="mongodb+srv://ashir655:1234@cluster0.nvrpiyn.mongodb.net/natours?retryWrites=true&w=majority"
 
-// const DB_string="mongodb://ashir655:1234@ac-wgd6iuy-shard-00-00.nvrpiyn.mongodb.net:27017,ac-wgd6iuy-shard-00-01.nvrpiyn.mongodb.net:27017,ac-wgd6iuy-shard-00-02.nvrpiyn.mongodb.net:27017/?ssl=true&replicaSet=atlas-8hrj10-shard-0&authSource=admin&retryWrites=true&w=majority"
+const DB_string= process.env.DB_KEY.replace('<PASSWORD>',process.env.DB_PASS)
+
 
 mongoose.connect(DB_string,{
     useNewUrlParser:true,

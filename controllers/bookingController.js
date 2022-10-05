@@ -1,4 +1,4 @@
-const stripe= require('stripe')('sk_test_51LopSlIkUpKKxr58zGA9pfaQRwHAyOG3no5slcQCKgvXcbQ1U8pzOEwDJe517Fe5KPCcRlwoUPzLqBYt3yHiI8U400XMawFJ4Z') //exposes func which when given secretKey gives stripe obj.
+const stripe= require('stripe')(process.env.STRIPE_SECRET_KEY) //exposes func which when given secretKey gives stripe obj.
 const tourModel= require('./../models/tourModels')
 const bookingModel= require('./../models/bookingModel')
 const catchAsync= require('./../util-by-ash/catchAsync-sec9-vid7')

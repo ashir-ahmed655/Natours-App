@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const fs=require('fs');
-const DB_string="mongodb://ashir655:1234@ac-wgd6iuy-shard-00-00.nvrpiyn.mongodb.net:27017,ac-wgd6iuy-shard-00-01.nvrpiyn.mongodb.net:27017,ac-wgd6iuy-shard-00-02.nvrpiyn.mongodb.net:27017/?ssl=true&replicaSet=atlas-8hrj10-shard-0&authSource=admin&retryWrites=true&w=majority"
 
+const DB_string= process.env.DB_KEY.replace('<PASSWORD>',process.env.DB_PASS)
 
 const tourModel=require('./models/tourModels');
 const reviewModel=require('./models/reviewModel');

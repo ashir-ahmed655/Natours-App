@@ -1,5 +1,5 @@
-const stripe = Stripe('pk_test_51LopSlIkUpKKxr58KHKIROQYdrkgmVcnI6RqfT3SQvkclDaHF7atuyXtPO4Kdu7N6xc04BRcvs1ohHjb8y9DEPnu00SjBtEkKF') //publicKey got from my stripe account Also this Stripe
-import axios from 'axios'                                                                                                 // obj was gotten from having stripe script in our tour pug
+const stripe = Stripe("pk_test_51LopSlIkUpKKxr58KHKIROQYdrkgmVcnI6RqfT3SQvkclDaHF7atuyXtPO4Kdu7N6xc04BRcvs1ohHjb8y9DEPnu00SjBtEkKF") //publicKey got from my stripe account Also this Stripe
+import axios from 'axios'                                  // obj was gotten from having stripe script in our tour pug
 import { showAlert } from './alert';
 
 export const bookTour= async tourId=>{

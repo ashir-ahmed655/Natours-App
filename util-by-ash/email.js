@@ -6,23 +6,31 @@ const html_To_Text= require('html-to-text');
 module.exports= class Email{  //using class to abstract info from one complex send func into multiple parts
     constructor(user,url){ // takes in all necessary info
         this.to= user.email
-        this.from=  "Ashir Ahmed <ash123@mailer.io>"
+        this.from=  `Ashir Ahmed <${process.env.EMAIL_FROM}>` //Need verified single senderVerification from sendGrid --see their website
         this.user_firstName= user.name.split(' ')[0]
         this.url= url 
     }
 
     makingTransport(){ // creates transport for different environments
-        if(process.env.NODE_ENV==='production') {
-            return 1; // will take care of this later
+        if(process.env.NODE_ENV==='production') { // Using SendGrid.
+            console.log("In Send Grid")
+        return nodemailer.createTransport({
+            service:'SendGrid',          
+            auth:{
+                user:process.env.SENDGRID_USERNAME,
+                pass:process.env.SENDGRID_PASSWORD
+            }
+        });
+           
         }
 
          //* 1) Create Transporter
         return nodemailer.createTransport({
             host:"smtp.mailtrap.io",   // can use gmail but won't because of cap of 500 emails per day. Hence now using dev-mailtrap because in dev 
-            port:2525,                  //  Will use some other service in future for production. ie: SendGrid or MailGun
+            port:process.env.MAILTRAP_PORT,                  //  Will use some other service in future for production. ie: SendGrid or MailGun
             auth:{
-                user:"825d4313cbf16c",
-                pass:"5996e3b1e64d59"
+                user:process.env.MAILTRAP_USER,
+                pass:process.env.MAILTRAP_PASS
             }
         })
     }

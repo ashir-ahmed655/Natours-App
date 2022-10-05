@@ -42,8 +42,8 @@ app.use(helmet());
 //     policy:
 // }))
 
+if(process.env.NODE_ENV==="development") app.use(morgan('dev')); // 3rd Party Middle-Ware Funcs. DEVELOPMENT Logging
 
-app.use(morgan('dev')); // 3rd Party Middle-Ware Funcs. DEVELOPMENT Logging
 app.use(express.json()); // middleware   ----Reads data in req.body
 
 const limiter= rateLimit({ // resets on restarting program. LIMIT reqs from API

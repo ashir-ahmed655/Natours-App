@@ -6,8 +6,8 @@ const {promisify}= require('util'); // becuz we only needed one func from the wh
 const Email= require('./../util-by-ash/email');
 const crypto=require('crypto');
 
-const createToken=(id)=>{ return jwt.sign({id:id}, 'qwertypoiuzxcvmnb098123-is-my-secretString',{ // params: payload,secretString(**Len MUST be >32 chars) ,options
-    expiresIn:"9d"  //eg: "1d", "20h", 60s"
+const createToken=(id)=>{ return jwt.sign({id:id}, process.env.JWT_MY_SECRET_PASSWORD,{ // params: payload,secretString(**Len MUST be >32 chars) ,options
+    expiresIn:process.env.JWT_EXPIRES_IN  //eg: "1d", "20h", 60s"
 }) }
 
 const create_token_and_send_res= (user,statusCode,res)=>{
@@ -90,7 +90,7 @@ exports.protect_Tour= catchAsync( async (req,res,next)=>{  // fked up with the n
 
     //^ 2). Verifying Token.
     // jwt.verify(token,'qwertypoiuzxcvmnb098123-is-my-secretString') *** has a callback so we promisify becuz we are comfortable with async-await
-    const payload= await promisify(jwt.verify)(token,'qwertypoiuzxcvmnb098123-is-my-secretString') // promisify returns a promise func which we call immediately
+    const payload= await promisify(jwt.verify)(token,process.env.JWT_MY_SECRET_PASSWORD) // promisify returns a promise func which we call immediately
     // console.log(payload);                                                       // hence returning promise. On which we use await which gives decoded data.
     
     //^ 3). Verify that user still exists. // must be easy to do since we already have payload/decoded data with us
@@ -219,7 +219,7 @@ exports.LoggedIn_orNot=  async (req,res,next)=>{  // fked up with the naming her
 
     //^ 2). Verifying Token.
     try{
-    const payload= await promisify(jwt.verify)(req.cookies.jwt,'qwertypoiuzxcvmnb098123-is-my-secretString') // promisify returns a promise func which we call immediately
+    const payload= await promisify(jwt.verify)(req.cookies.jwt,process.env.JWT_MY_SECRET_PASSWORD) // promisify returns a promise func which we call immediately
                                           
     //^ 3). Verify that user still exists. // must be easy to do since we already have payload/decoded data with us
      const user_exists= await userModel.findById(payload.id); // returns the user if it exists.
