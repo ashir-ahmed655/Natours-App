@@ -35,7 +35,7 @@ mongoose.connect(DB_string,{
 // .then(doc=>{console.log(doc)})
 // .catch(err=> console.log("Error Saving to DB: "+err));
 //!x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x
-port=6969;
+const port=process.env.PORT||6969; // have to specify port env for heroku to work.
 // console.log(app.get('env'));
 // console.log(process.env);
 const server = app.listen(port,()=>{  // returns a server object.
