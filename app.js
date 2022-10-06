@@ -53,7 +53,7 @@ app.use(helmet());
 
 if(process.env.NODE_ENV==="development") app.use(morgan('dev')); // 3rd Party Middle-Ware Funcs. DEVELOPMENT Logging
 
-app.use('/web-hookCheckout',bodyParser.raw({type:'application/json'}),bookingController.webHookCheckout) // returns sessionData, needed for making booking doc on successful payment 
+app.use('/web-hookCheckout',express.raw(),bookingController.webHookCheckout) // returns sessionData, needed for making booking doc on successful payment 
 //in a secure way. Note** should be before below expressJson middlewre. Above route is defined here rather than in bookingRoute cause we need data in stream form but below middlwre
 // will convert it into json form before sending route to bookingRoutes.
 
