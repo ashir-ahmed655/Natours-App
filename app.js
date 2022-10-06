@@ -1,7 +1,6 @@
 const express=require('express');
 const morgan=require('morgan');
 const exp = require('constants');
-const app= express();
 const path= require('path');
 const tour_router=require('./routes/Tour_Routes');
 const user_router=require('./routes/User_Routes');
@@ -19,6 +18,9 @@ const xss=require('xss-clean');
 const hpp=require('hpp');
 const compression= require('compression')
 
+const app= express();
+
+app.enable('trust proxy') // So that express trust proxies as heroku itself works as a proxy so req.secure won't work 
 app.set('view engine','pug'); // to use pug templates NOTE: Node already supports pug and other popular template engines by default
 app.set('views', path.join(__dirname,'views')) // sets views folder as our view engine and path is a native module which joins view folder path with dir name.
 //^ NOTE**: views folder should be named 'views' nothing else. Becuz it wont work then...

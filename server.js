@@ -51,6 +51,14 @@ process.on('unhandledRejection',err=>{ // For ASYNC CODE: global promise rejecti
     })
 });
 
+process.on('SIGTERM',()=>{ // Sigterm signal is emitted by heroku dyno(fancy word for app container) which is issued after every 24hrs to close & restart the app to keep it in healthy state
+    console.log("👋👋 SIG TERM Signal Acknowledged. Shutting Down the Server for Regular Maintenance. Will be Back Shortly.")
+    server.close(()=>{ //Close the server but before that handle all pending requests// To save server from abrupt shutdown and leaving pending reqs 
+        console.log("Process Ended")
+    })
+});
+
+
 //For SYNC CODE SEE AT TOP 🔼
 
 

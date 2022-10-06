@@ -10,15 +10,17 @@ const createToken=(id)=>{ return jwt.sign({id:id}, process.env.JWT_MY_SECRET_PAS
     expiresIn:process.env.JWT_EXPIRES_IN  //eg: "1d", "20h", 60s"
 }) }
 
-const create_token_and_send_res= (user,statusCode,res)=>{
+const create_token_and_send_res= (user,statusCode,req,res)=>{
     const token= createToken(user._id);
     const cookie_specific_options={
         expires:new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // so that cookie expires after 90 days from when it is generated.
         // secure:true, // so that the cookie is sent over only https **Note: Can't use this in development mode becuz using htttp rn.
-        httpOnly:true // so that the cookie is stored only by browser and sent only when sending reqs and not stored in local storage.
+        httpOnly:true, // so that the cookie is stored only by browser and sent only when sending reqs and not stored in local storage.
+        secure: (req.secure || req.headers['x-forwarded-proto'] ==='https') //if either of the 2 conditions return true then secure will be set.Using it since now app on heroku
+        // Used 2 conditions becuz req.secure might not get set as heroku alters the req before it reaches us, so also chking for the header that heroku puts on the req automatically.
     }
 
-    if(process.env.NODE_ENV=='production'){ cookie_specific_options.secure=true} // becuz will use https in prod.
+    // if(req.secure= true || req.headers['x-forwarded-proto'] ==='https'){ cookie_specific_options.secure=true} // Could've done it here like this aswell but we did it in optionsObj
 
     res.cookie('jwt',token,cookie_specific_options)
 
@@ -45,7 +47,7 @@ exports.signup = catchAsync( async (req,res,next)=>{
     const url=`${req.protocol}://${req.get('host')}/me`
     // console.log(url);
     await new Email(newUser,url).sendWelcome();
-    create_token_and_send_res(newUser,201,res)
+    create_token_and_send_res(newUser,201,req,res)
 
     // const token=createToken(newUser._id);
 
@@ -73,7 +75,7 @@ exports.login= catchAsync( async(req,res,next)=>{
     //     token
     // })
 
-    create_token_and_send_res(user,200,res)
+    create_token_and_send_res(user,200,req,res)
 });
 
 
@@ -182,7 +184,7 @@ exports.reset_pass= catchAsync( async (req,res,next)=>{
     //     status:"success",
     //     token
     // });
-    create_token_and_send_res(user,200,res)
+    create_token_and_send_res(user,200,req,res)
 })
 
 
@@ -205,7 +207,7 @@ exports.updatePassword= catchAsync(async(req,res,next)=>{
         //     token
         // })
 
-        create_token_and_send_res(user,200,res)
+        create_token_and_send_res(user,200,req,res)
 });
 
 
