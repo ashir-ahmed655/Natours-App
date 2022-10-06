@@ -2,6 +2,7 @@ const express=require('express');
 const morgan=require('morgan');
 const exp = require('constants');
 const path= require('path');
+const cors= require('cors');
 const tour_router=require('./routes/Tour_Routes');
 const user_router=require('./routes/User_Routes');
 const review_router=require('./routes/Review_Routes');
@@ -25,6 +26,8 @@ app.set('view engine','pug'); // to use pug templates NOTE: Node already support
 app.set('views', path.join(__dirname,'views')) // sets views folder as our view engine and path is a native module which joins view folder path with dir name.
 //^ NOTE**: views folder should be named 'views' nothing else. Becuz it wont work then...
 
+app.use(cors()); //Implement Cors
+app.options('*',cors())
 app.use(express.static(path.join(__dirname,'public')));// This sets route for static files eg: html,css,js,imgs --cannot access whole folders just 1 file at a time
 
 app.use(helmet());
