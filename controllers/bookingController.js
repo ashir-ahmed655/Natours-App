@@ -65,7 +65,8 @@ const createBookingCheckOut=  async sessionData=>{ // here sessionData is the sa
     const tour= sessionData.client_reference_id              // the event(checkout.session.completed)
     const user= (await userModel.findOne({ email: sessionData.customer_email})).id 
     const price= (sessionData.object.amount_total) // since stripe takes the min amount of that currency($=>pence) so there we conv. it but need $ here to make bookingDoc
-    console.log("✌🤷‍♂️✌✌✌"+price)
+    console.log("✌✌✌✌✌✌✌✌✌")
+    console.log(sessionData.object);
     await bookingModel.create({tour,user,price})
 
 }
