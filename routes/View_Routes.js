@@ -16,7 +16,7 @@ view_router.get('/login',authController.LoggedIn_orNot,viewController.getLoginFo
 
 view_router.get('/me',authController.protect_Tour,viewController.getMyProfile)
 
-view_router.get('/my-bookings',bookingController.createBookingCheckOut,authController.protect_Tour,viewController.getMyBookings)
+view_router.get('/my-bookings',authController.protect_Tour,viewController.getMyBookings)
 
 
 // view_router.post('/submit-user-data',authController.protect_Tour,viewController.updateProfile)

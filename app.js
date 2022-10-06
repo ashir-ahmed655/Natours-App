@@ -8,8 +8,10 @@ const user_router=require('./routes/User_Routes');
 const review_router=require('./routes/Review_Routes');
 const booking_router= require('./routes/Booking_Routes');
 const view_router=require('./routes/View_Routes');
+const bookingController= require('./controllers/bookingController');
 
 const cookieParser= require('cookie-parser');
+const bodyParser= require('body-parser');
 const appErr= require('./util-by-ash/global-err-handling');
 const errHandler=require('./controllers/errorController');
 const rateLimit=require('express-rate-limit');
@@ -26,8 +28,10 @@ app.set('view engine','pug'); // to use pug templates NOTE: Node already support
 app.set('views', path.join(__dirname,'views')) // sets views folder as our view engine and path is a native module which joins view folder path with dir name.
 //^ NOTE**: views folder should be named 'views' nothing else. Becuz it wont work then...
 
-app.use(cors()); //Implement Cors
-app.options('*',cors())
+app.use(cors()); //Implement Cors 
+app.options('*',cors()) //Imp for complex reqs(ie: put,patch,delete) using cross-origin site, what happens is Browser sends an option req(like any other http req ie:put,post,get) 
+// which is to confirm if complx reqs are allowed by this api, We pass this option http method using our app to allow these reqs. We can also configure to replace (*) 
+//with a route so that only that route is allowed to do complex reqs from cross origin sites.
 app.use(express.static(path.join(__dirname,'public')));// This sets route for static files eg: html,css,js,imgs --cannot access whole folders just 1 file at a time
 
 app.use(helmet());
@@ -49,7 +53,11 @@ app.use(helmet());
 
 if(process.env.NODE_ENV==="development") app.use(morgan('dev')); // 3rd Party Middle-Ware Funcs. DEVELOPMENT Logging
 
-app.use(express.json()); // middleware   ----Reads data in req.body
+app.use('/web-hookCheckout',bodyParser.raw({type:'application/json'}),bookingController.webHookCheckout) // returns sessionData, needed for making booking doc on successful payment 
+//in a secure way. Note** should be before below expressJson middlewre. Above route is defined here rather than in bookingRoute cause we need data in stream form but below middlwre
+// will convert it into json form before sending route to bookingRoutes.
+
+app.use(express.json()); // middleware   ----Reads data in req.body // converts data from stream to json format.
 
 const limiter= rateLimit({ // resets on restarting program. LIMIT reqs from API
     max:100, //max reqs
