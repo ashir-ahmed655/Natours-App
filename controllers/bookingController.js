@@ -64,9 +64,9 @@ res.status(200).json({
 const createBookingCheckOut=  async sessionData=>{ // here sessionData is the same session that we made in above getChkoutSesssion but returned to us from stripe by listening to
     const tour= sessionData.client_reference_id              // the event(checkout.session.completed)
     const user= (await userModel.findOne({ email: sessionData.customer_email})).id 
-    const price= (sessionData.object.amount_total) // since stripe takes the min amount of that currency($=>pence) so there we conv. it but need $ here to make bookingDoc
-    console.log("✌✌✌✌✌✌✌✌✌")
-    console.log(sessionData.object);
+    const price= (sessionData.amount_total) // since stripe takes the min amount of that currency($=>pence) so there we conv. it but need $ here to make bookingDoc
+    console.log("✌✌✌✌✌✌✌")
+    console.log(sessionData.amount_total);
     await bookingModel.create({tour,user,price})
 
 }
