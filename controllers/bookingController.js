@@ -33,7 +33,7 @@ exports.getCheckout_Session= catchAsync( async (req,res,next)=>{
                 product_data: {
                             name: `${bookedTour.name}`,
                             description: bookedTour.summary,
-                            images: [`https://www.natours.dev/img/tours/${bookedTour.imageCover}`], //imgs need to be live ie: hosted somewhere.
+                            images: [`${req.protocol}://${req.get('host')}/img/tours/${bookedTour.imageCover}`], //imgs need to be live ie: hosted somewhere.
                         },
             },
         quantity: 1,
