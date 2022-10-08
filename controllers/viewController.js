@@ -43,6 +43,13 @@ exports.getLoginForm=(req,res)=>{
     })
 }
 
+exports.getSignUpForm= (req,res,next)=>{
+    res.status(200).render('signup',{
+        title: "Sign Up your Account"
+    })
+}
+
+
 exports.getMyProfile= (req,res)=>{
     res.status(200).render('account',{
         title:"My Profile"
@@ -72,6 +79,7 @@ exports.getMyBookings= catchAsync( async (req,res,next)=>{
         tours:tours
     })
 })
+
 
 
 

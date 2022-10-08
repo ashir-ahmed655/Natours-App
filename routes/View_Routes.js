@@ -14,6 +14,8 @@ view_router.get('/tour/:slug',authController.LoggedIn_orNot,viewController.getTo
 
 view_router.get('/login',authController.LoggedIn_orNot,viewController.getLoginForm)
 
+view_router.get('/signup',authController.LoggedIn_orNot,viewController.getSignUpForm)
+
 view_router.get('/me',authController.protect_Tour,viewController.getMyProfile)
 
 view_router.get('/my-bookings',authController.protect_Tour,viewController.getMyBookings)

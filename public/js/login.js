@@ -1,6 +1,31 @@
 import axios from 'axios'
 import { showAlert } from './alert';
 
+export const signUp= async (name,email,password,passwordConfirm)=>{
+    try{
+        const response= await axios ({
+            method:"POST",
+            url:"/api/v1/users/signup",
+            data:{
+                email,
+                password,
+                passwordConfirm,
+                name,
+            }
+        })
+        if(response.data.status==='success'){
+            showAlert('success',"SignUp SuccessFul. Please check your Email for further instructions.")
+            window.setTimeout(()=>{
+                location.assign('/')
+            },1200)
+        }
+
+    }catch(err){
+        console.log(err);
+        showAlert("error",err.response.message)
+    }
+}
+
 export const login= async (email,password)=>{
 
     try{
@@ -35,7 +60,8 @@ export const logout= async ()=>{
         if(res.data.status==="success"){
             showAlert('success',"Logged Out Successfully")
             window.setTimeout(()=>{
-                location.reload(true) // if true the reload comes from server else. It comes from browser cache which can still retain old data. 
+                // location.reload(true) // if true the reload comes from server else. It comes from browser cache which can still retain old data. 
+                window.location.replace("/");
             },1500);
            
         }

@@ -1,6 +1,6 @@
 import '@babel/polyfill'; // added as 1st line to make es6 syntax work in older browser as well.
 import { displayMap } from './mapbox'
-import { login, logout } from './login' // similar to require but this is es6 syntax we've been doing common module syntax till now. Using this becuz parcel
+import { signUp ,login, logout } from './login' // similar to require but this is es6 syntax we've been doing common module syntax till now. Using this becuz parcel
 import { update_userInfo, updatePassword } from './updateUserProfile_Password' //doesn't understand common module but js & es6 syntax.
 import { bookTour } from './stripe' 
 
@@ -10,6 +10,7 @@ import { bookTour } from './stripe'
 const mapBox= document.getElementById('map');
 const loginPage= document.querySelector('.form--loogin'); //name stupid becuz we couldn't use prev(.form) becuz we needed it to send updates from
                                                                  // another form(Think account updation form (chk account.pug))
+const signUpPage= document.querySelector('.form--signup')
 const logoutBtn= document.querySelector('.nav__el--logout') // class present on logout btn
 const userProfileForm= document.querySelector('.form-user-data')
 const userPassForm= document.querySelector('.form-user-password')
@@ -24,6 +25,18 @@ if(mapBox){ // If html has an element with id 'map' then mapbox will be called.A
     displayMap(locations);
 
 }
+
+if(signUpPage){
+    signUpPage.addEventListener('submit',e =>{
+        e.preventDefault();
+        const name= document.getElementById('name').value
+        const email= document.getElementById('email').value;
+        const password= document.getElementById('password').value;
+        const passwordConfirm= document.getElementById('passwordConfirm').value;
+        signUp(name,email,password,passwordConfirm)
+    })
+}
+
 
 if(loginPage){
 loginPage.addEventListener('submit',e=>{
